@@ -1,0 +1,17 @@
+---
+import { ViewTransitions } from "astro:transitions";
+import Heading from "../components/Heading.astro";
+
+const path = Astro.url.pathname;
+---
+
+<html transition:animate="none">
+  <head>
+    <ViewTransitions />
+  </head>
+  <body>
+    <Heading>E {path}</Heading>
+    <a href="/" data-astro-history="replace">Home</a>
+    <a href="/test" data-astro-history="replace">Test Page</a>
+  </body>
+</html>
