@@ -1,0 +1,115 @@
+---
+import { numberToPolishNumeral } from '../utils/stringNumerals';
+
+import Stars from '../components/Stars.astro';
+import PublicationDetails from '../components/PublicationDetails.astro';
+
+type Props = {
+    coverPicture: {
+        [ key: string ]: string;
+    };
+    postAuthor: {
+        id: string;
+        path: string;
+        name: string;
+        bio: string;
+        author_picture: {
+            [ key: string ]: string;
+        };
+    };
+    createdAt: string;
+    name: string;
+    rating: number;
+    numberOfComments: number;
+    teaser: string;
+};
+
+const numberOfComments = Astro.props.numberOfComments || 0;
+const coverPicture = Astro.props.coverPicture;
+const createdAt = Astro.props.createdAt;
+const postAuthor = Astro.props.postAuthor;
+const name = Astro.props.name;
+const rating = Astro.props.rating;
+const teaser = Astro.props.teaser;
+
+const commentsText = numberToPolishNumeral(numberOfComments, {
+    one: 'komentarz',
+    many: 'komentarzy',
+    exceptions: 'komentarze',
+});
+---
+
+<div class="font-jost">
+    <div class="relative">
+        <picture>
+            {coverPicture?.['785x420'] && <source media="(min-width: 1468px)" srcset={coverPicture?.['785x420']} />}
+            {coverPicture?.['1200x430'] && <source media="(min-width: 800px)" srcset={coverPicture?.['1200x430']} />}
+            {coverPicture?.['785x420'] && <source media="(min-width: 0px)" srcset={coverPicture?.['785x420']} />}
+            <img class="background" src={coverPicture?.['1200x4320']} loading="lazy" alt="" />
+        </picture>
+        <div class="!pt-[330px] relative bg-[linear-gradient(transparent_50%,white_100%)]">
+            <PublicationDetails
+                publisher={{
+                    name: postAuthor.name,
+                    path: postAuthor.path,
+                    picture: postAuthor.author_picture,
+                }}
+                createdAt={createdAt}
+            />
+
+            <div class="component-padding relative !py-0">
+                <h1 class="flex">
+                    <span class="text-[38px]">{name}</span>
+                </h1>
+            </div>
+        </div>
+    </div>
+    <div class="component-padding relative !pt-[10px] bg-white">
+        <div class="flex items-center">
+            <Stars
+                width={160}
+                height={30}
+                rating={rating}
+                gapWidth={5}
+            />
+
+            <div class="divSeparator"></div>
+
+            <div>{numberOfComments || 0} {commentsText}</div>
+        </div>
+        {teaser?.length > 0 && <div class="mt-[10px] text-[20px] leading-[35px]">{teaser}</div>}
+    </div>
+</div>
+
+<style>
+.background {
+    background-color: #eee;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.6;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+    margin: 7px 7px 7px 7px;
+    width: calc(100% - 7px * 2);
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.divSeparator {
+    background-color: black;
+    border-radius: 999px;
+    width: 3px;
+    height: 3px;
+    min-width: 3px;
+    min-height: 3px;
+    max-width: 3px;
+    max-height: 3px;
+    margin: 0 10px;
+    display: flex;
+    opacity: 0.5;
+}
+</style>

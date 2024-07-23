@@ -1,0 +1,18 @@
+---
+const classes = ['asideContainer', Astro.props.extraClasses].filter(Boolean).join(' ');
+---
+
+<aside class={classes}>
+    <slot />
+</aside>
+
+<style>
+.asideContainer {
+    right: 0;
+    position: var(--desktop-aside-position);
+    width: var(--desktop-aside-width);
+    height: var(--desktop-aside-height);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+</style>

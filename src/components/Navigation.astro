@@ -1,0 +1,18 @@
+---
+import Logo from "./Logo.astro";
+
+const currentPath = '/' + (Astro.params.path || '');
+const items = Astro.props.items;
+---
+
+<div class="component-border-bottom flex font-jost text-[16px] h-[50px]">
+    <div style={{
+        display: 'flex',
+        gap: '30px',
+        alignItems: 'center',
+        margin: '0 30px',
+    }}>
+        <Logo class="mr-[20px]" height={25} />
+        {items.map(i => <a href={i.url} class={currentPath === i.url ? "font-medium" : ""}>{i.name}</a>)}
+    </div>
+</div>

@@ -1,0 +1,9 @@
+---
+const width = Astro.props.width || 'auto'
+const background = Astro.props.background || 'none'
+const extraClasses = Astro.props.extraClasses || ''
+---
+
+<section style={{ width, minWidth: width, background }} class={extraClasses}>
+    <slot />
+</section>

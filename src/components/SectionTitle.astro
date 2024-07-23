@@ -1,0 +1,16 @@
+---
+const classes = [
+    'font-jost',
+    'text-[22px]'
+];
+
+if (Astro.props.withMargin) {
+    classes.push('mx-[30px]', 'mb-[30px]');
+}
+
+classes.push(Astro.props.containerClass);
+---
+
+<div class={classes.join(' ')}>
+    <slot />
+</div>

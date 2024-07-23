@@ -1,0 +1,16 @@
+<main class={['mainContainer', Astro.props.class].join(' ')}>
+    <slot />
+</main>
+
+<style>
+.mainContainer {
+    left: 0;
+    position: var(--desktop-main-position);
+    width: var(--desktop-main-width);
+    height: calc( var(--desktop-main-height) - 50px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+}
+</style>

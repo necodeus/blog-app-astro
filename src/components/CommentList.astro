@@ -1,0 +1,54 @@
+---
+import 'moment/locale/pl';
+
+import PublicationDetails from "../components/PublicationDetails.astro";
+
+interface Props {
+    postId: string;
+    comments: {
+        id: string;
+        author_name: string;
+        created_at: string;
+        content: string;
+        upvotes: number;
+        downvotes: number;
+        action: {
+            value: number;
+        };
+        replies: {
+            id: string;
+            author_name: string;
+            created_at: string;
+            content: string;
+            upvotes: number;
+            downvotes: number;
+            action: {
+                value: number;
+            };
+        }[];
+    }[];
+};
+
+const comments = Astro.props.comments;
+---
+
+<div>
+    {comments.map((comment) => {
+        return <div class="mt-[15px]">
+            <PublicationDetails
+                publisher={{
+                    name: 'necodeus',
+                    path: '/autorzy/necodeus',
+                    picture: {
+                        '25x25': 'https://images.necodeo.com/1ad0fa37-17ad-4881-9ced-54d7718b35f5/25x25'
+                    }
+                }}
+                createdAt={comment.created_at}
+            />
+
+            <div style={{ margin: '0 65px' }}>
+                { comment.content }
+            </div>
+        </div>
+    })}
+</div>

@@ -1,0 +1,102 @@
+---
+import BasicSection from "../components/BasicSection.astro";
+import Comments from "../components/Comments.astro";
+import Content from "../components/Content.astro";
+import ContentNav from "../components/ContentNav.astro";
+import Header from "../components/Header.astro";
+import PostAuthor from "../components/PostAuthor.astro";
+import SectionTitle from "../components/SectionTitle.astro";
+
+const post = Astro.props.post;
+
+const postAuthor = Astro.props.postAuthor;
+
+const contentItems = [
+  {
+    id: '1',
+    title: "Lorem ipsum dolor sit amet",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec eros ultricies tincidunt.",
+  },
+  {
+    id: '2',
+    title: "Lorem ipsum dolor sit amet",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec eros ultricies tincidunt.",
+  },
+];
+
+const comments = [
+  {
+    id: '1',
+    author_name: "DL",
+    created_at: "2021-10-10",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec eros ultricies tincidunt.",
+    upvotes: 5,
+    downvotes: 1,
+    action: {
+      value: 1,
+    },
+    replies: [
+      {
+        id: '1',
+        author_name: "DL",
+        created_at: "2021-10-10",
+        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec eros ultricies tincidunt.",
+        upvotes: 5,
+        downvotes: 1,
+        action: {
+          value: 1,
+        },
+      },
+    ],
+  },
+];
+---
+
+<BasicSection width="var(--main-width)" extraClasses="component-border-vertical component-border-bottom">
+  <div>
+    {post?.id && (
+      <Header
+        coverPicture={post.cover_picture}
+        postAuthor={postAuthor}
+        createdAt={post.created_at}
+        name={post.title}
+        rating={4.5}
+        numberOfComments={post.comments_count}
+        teaser={post.teaser}
+      />
+    )}
+  </div>
+</BasicSection>
+
+<BasicSection width="var(--main-width)" extraClasses="not-desktop">
+  {contentItems.length > 0 && (
+    <div class="m-[7px]">
+      <ContentNav items={contentItems} />
+    </div>
+  )}
+</BasicSection>
+
+<BasicSection width="var(--main-width)" extraClasses="component-border-vertical component-border-bottom overflow-hidden">
+  {post?.id && <Content content={post?.content ?? ""} />}
+</BasicSection>
+
+<BasicSection width="var(--main-width)" extraClasses="component-border-vertical component-border-bottom">
+  {post?.id && <PostAuthor profile={postAuthor} />}
+</BasicSection>
+
+<BasicSection width="var(--main-width)" extraClasses="component-border-vertical component-border-bottom">
+  <SectionTitle containerClass="p-[30px] component-border-bottom">
+      <b>Komentarze</b>
+  </SectionTitle>
+  <Comments
+    isCommentsVisible={true}
+    comments={comments}
+    postId={post.id}
+  />
+</BasicSection>
+
+<BasicSection
+  width="var(--main-width)"
+  extraClasses="component-border-vertical overflow-hidden flex-grow"
+/>
+

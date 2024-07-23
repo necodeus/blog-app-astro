@@ -1,25 +1,165 @@
 ---
-import { ViewTransitions } from "astro:transitions";
-import Heading from "../components/Heading.astro";
+import Layout from "../layouts/Layout.astro";
 
-const { path } = Astro.params;
+import Post from "../views/Post.astro";
+import Posts from "../views/Posts.astro";
+import Author from "../views/Author.astro";
+import Authors from "../views/Authors.astro";
+import Projects from "../views/Projects.astro";
+import Contact from "../views/Contact.astro";
 
-if (path === "error-404") {
+import AsideContainer from "../components/AsideContainer.astro";
+import MainContainer from "../components/MainContainer.astro";
+import SectionWrapper from "../components/SectionWrapper.astro";
+
+const path = '/' + (Astro.params.path || '')
+const response = await fetch(`https://blog-api.necodeo.com/api/initial-url-data?path=${path}`);
+const data = await response.json();
+
+const contentType = data?.url?.content_type;
+
+if (!data.url) {
   Astro.response.status = 404;
 }
 
-if (path === "error-500") {
-  Astro.response.status = 500;
+console.error(data);
+
+// COMMON
+
+let title = '';
+
+const navigation = [
+    {
+        name: 'Artykuły',
+        url: '/',
+    },
+    {
+        name: 'Autorzy',
+        url: '/autorzy',
+    },
+    {
+        name: 'Projekty',
+        url: '/projekty',
+    },
+    {
+        name: 'Kontakt',
+        url: '/kontakt',
+    },
+];
+
+// AUTHORS
+
+let authors = null;
+
+if (contentType === 'AUTHORS') {
+  title = 'Autorzy';
+
+  authors = [
+    {
+      name: 'necodeus',
+      bio: 'Software Developer',
+      avatar_image_id: 1,
+      path: '/autorzy/necodeus',
+    },
+    {
+      name: 'DL',
+      bio: 'Wordpress Developer',
+      avatar_image_id: 1,
+      path: '/autorzy/dl',
+    },
+  ];
+}
+
+// AUTHOR
+
+let author = {};
+let posts: object[] = [];
+
+if (contentType === 'AUTHOR') {
+  author = {
+    name: 'DL',
+    bio: 'Wordpress Developer',
+    path: '/autorzy/dl',
+    avatar_image_id: '1ad0fa37-17ad-4881-9ced-54d7718b35f5',
+  };
+
+  posts = [
+    {
+      id: 1,
+      title: 'Lorem ipsum dolor sit amet',
+      tagName: 'Tag',
+      image: 'https://images.necodeo.com/d2f51275-cbf9-4ee6-8da7-b3edf8636c25/785x420',
+      path: '/livka-igor-herbut-list',
+    },
+  ];
+}
+
+// POST
+
+let post = {};
+let postAuthor = {};
+
+if (contentType === 'POST') {
+  title = 'Lorem ipsum dolor sit amet';
+
+  post = {
+    id: '1',
+    title: 'Lorem ipsum dolor sit amet',
+    teaser: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec eros ultricies tincidunt.',
+    content: '# Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+    cover_picture: {
+      '785x420': 'https://images.necodeo.com/d2f51275-cbf9-4ee6-8da7-b3edf8636c25/785x420',
+    },
+    created_at: '2021-10-10',
+    comments_count: 5,
+  };
+
+  postAuthor = {
+    id: '1',
+    path: '/autorzy/necodeus',
+    name: 'necodeus',
+    bio: 'Software Developer',
+    author_picture: {
+      '25x25': 'https://images.necodeo.com/1ad0fa37-17ad-4881-9ced-54d7718b35f5/25x25',
+      '55x55': 'https://images.necodeo.com/1ad0fa37-17ad-4881-9ced-54d7718b35f5/55x55',
+    },
+  };
+}
+
+// POSTS
+
+if (contentType === 'POSTS') {
+  title = 'Artykuły';
+
+  posts = [
+    {
+      id: '1',
+      path: '/livka-igor-herbut-list',
+      title: 'Lorem ipsum dolor sit amet',
+      author_name: 'DL',
+      author_path: '/autorzy/dl',
+      author_picture: {
+        '25x25': 'https://images.necodeo.com/1ad0fa37-17ad-4881-9ced-54d7718b35f5/25x25',
+      },
+      created_at: '2021-10-10',
+    },
+  ];
 }
 ---
 
-<html transition:animate="none">
-  <head>
-    <ViewTransitions />
-  </head>
-  <body>
-    <Heading>P /{path}</Heading>
-    <a href="/" data-astro-history="replace">Home</a>
-    <a href="/test" data-astro-history="replace">Test Page</a>
-  </body>
-</html>
+<Layout title={title} navigation={navigation}>
+  <MainContainer extraClasses="lg:h-[100vh]">
+    <SectionWrapper
+      width="var(--desktop-main-content-width)"
+      extraClasses="flex-grow"
+      childrenClasses="flex-grow flex flex-col"
+    >
+      {contentType === 'AUTHORS' && <Authors authors={authors || []} />}
+      {contentType === 'AUTHOR' && <Author author={author} posts={posts} />}
+      {contentType === 'POST' && <Post post={post} postAuthor={postAuthor} />}
+      {contentType === 'POSTS' && <Posts posts={posts} />}
+      {contentType === 'PROJECTS' && <Projects />}
+      {contentType === 'CONTACT' && <Contact />}
+  </MainContainer>
+  <AsideContainer extraClasses="component-border-vertical"></AsideContainer>
+</Layout>

@@ -1,0 +1,41 @@
+---
+import CommentList from '../components/CommentList.astro';
+import CommentListEmpty from '../components/CommentListEmpty.astro';
+
+interface Props {
+    postId: string;
+    comments: {
+        id: string;
+        author_name: string;
+        created_at: string;
+        content: string;
+        upvotes: number;
+        downvotes: number;
+        action: {
+            value: number;
+        };
+        replies: {
+            id: string;
+            author_name: string;
+            created_at: string;
+            content: string;
+            upvotes: number;
+            downvotes: number;
+            action: {
+                value: number;
+            };
+        }[];
+    }[];
+    isCommentsVisible: boolean;
+};
+
+const postId = Astro.props.postId;
+const comments = Astro.props.comments;
+const isCommentsVisible = Astro.props.isCommentsVisible;
+---
+
+<div class="font-jost py-[30px] text-[17px]">
+    {comments?.length > 0 && <CommentList postId={postId} comments={comments} />}
+
+    {isCommentsVisible && comments?.length === 0 && <CommentListEmpty />}
+</div>

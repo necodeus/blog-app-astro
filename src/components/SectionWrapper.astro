@@ -1,0 +1,17 @@
+---
+const width = Astro.props.width || 'auto';
+const aside = Astro.props.aside || '';
+const extraClasses = Astro.props.extraClasses || '';
+const childrenClasses = Astro.props.childrenClasses || '';
+
+const classes = ['flex', extraClasses].filter(Boolean).join(' ');
+---
+
+<div class={classes}>
+    <div class="desktop flex flex-col items-end" style={{ width, minWidth: width }}>
+        { aside }
+    </div>
+    <div class={'w-full ' + childrenClasses}>
+        <slot />
+    </div>
+</div>

@@ -1,0 +1,66 @@
+---
+type Props = {
+  rating: number;
+  gapWidth: number;
+  width: number;
+  height: number;
+};
+
+function getFixedPercentage(rating: number, gapWidth: number) {
+  const starWidth = 10;
+  const maxRating = 5;
+
+  const totalWidth = starWidth * maxRating + gapWidth * (maxRating - 1);
+  const filledWidth =
+    Math.floor(rating) * (starWidth + gapWidth) + (rating % 1) * starWidth;
+  const percentage = (filledWidth / totalWidth) * 100;
+
+  return percentage;
+}
+
+function generateStarPoints(offsetX: number) {
+  return `${offsetX + 5},0.5 ${offsetX + 6.25},3.85 ${offsetX + 9.9},3.85 ${offsetX + 7.075},6.15 ${offsetX + 8.3},9.5 ${offsetX + 5},7.3 ${offsetX + 1.7},9.5 ${offsetX + 2.925},6.15 ${offsetX + 0.1},3.85 ${offsetX + 3.75},3.85`;
+}
+
+function generateStars(gapWidth: number) {
+  let stars = "";
+
+  for (let i = 0; i < 5; i++) {
+    stars += `<polygon points="${generateStarPoints(i * (10 + gapWidth))}" />`;
+  }
+
+  console.error(stars);
+
+  return stars;
+}
+
+const { rating, gapWidth, width, height } = Astro.props;
+
+const pc = getFixedPercentage(rating, gapWidth);
+const totalWidth = 5 * 10 + 4 * gapWidth;
+---
+
+<svg
+  width={width}
+  height={height}
+  style={{
+    minWidth: width,
+    minHeight: height,
+  }}
+  viewBox={`0 0 ${totalWidth} 10`}
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <defs>
+    <clipPath id="stars">
+      <Fragment set:html={generateStars(gapWidth)} />
+    </clipPath>
+  </defs>
+  <rect width={totalWidth} height="10" fill="#eee" clip-path="url(#stars)"
+  ></rect>
+  <rect
+    width={totalWidth}
+    height="10"
+    fill="gold"
+    clip-path="url(#stars)"
+    style={{ transition: "width 0.5s", width: pc + "%" }}></rect>
+</svg>

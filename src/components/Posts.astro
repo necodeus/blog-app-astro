@@ -1,0 +1,64 @@
+---
+import moment from "moment"
+import 'moment/locale/pl';
+
+interface Props {
+    posts: {
+        id: string;
+        path: string;
+        title: string;
+        author_name: string;
+        author_path: string | null;
+        author_picture: {
+            [key: string]: string;
+        };
+        created_at: string;
+    }[];
+};
+
+const posts = Astro.props.posts || [];
+---
+
+<ul class="font-jost inline-flex flex-col gap-[30px]">
+    {posts.length > 0 && posts.map((post) => {
+        return <li>
+            <div class="flex items-center">
+                <a href={post.author_path || '#'} class="flex items-center">
+                    <picture>
+                        <img
+                            src={post.author_picture?.['25x25']}
+                            alt=""
+                            loading="lazy"
+                            class="min-w-[25px] max-w-[25px] min-h-[25px] max-h-[25px] bg-cover bg-center !rounded-[50%] bg-[#eee] object-cover"
+                        />
+                    </picture>
+                    <span class="ml-[10px] text-[16px]">
+                        <b class="font-medium">{ post.author_name }</b>
+                    </span>
+                </a>
+                {post.created_at && <div class="divSeparator"></div>}
+                {post.created_at && <span class="text-[16px]">{ moment(post.created_at).fromNow() }</span>}
+            </div>
+            <h1 class="flex mt-[10px]">
+                <a href={post.path || ''} class="text-[38px]"> { post.title }</a>
+            </h1>
+        </li>
+    })}
+    {posts.length === 0 && <div>Brak artykułów</div>}
+</ul>
+
+<style>
+.divSeparator {
+    background-color: black;
+    border-radius: 999px;
+    width: 3px;
+    height: 3px;
+    min-width: 3px;
+    min-height: 3px;
+    max-width: 3px;
+    max-height: 3px;
+    margin: 0 10px;
+    display: flex;
+    opacity: 0.5;
+}
+</style>

@@ -1,0 +1,25 @@
+---
+import BasicSection from "../components/BasicSection.astro";
+import SectionTitle from "../components/SectionTitle.astro";
+import PostsX from "../components/Posts.astro";
+
+const posts = Astro.props.posts;
+---
+
+<BasicSection
+  width="var(--main-width)"
+  extraClasses="component-border-vertical overflow-hidden"
+  childrenClasses="flex-grow flex flex-col"
+>
+  <SectionTitle containerClass="p-[30px] component-border-bottom">
+    <h1><b>Artykuły</b></h1>
+  </SectionTitle>
+  <div class="component-padding component-border-bottom">
+    <PostsX posts={posts} />
+  </div>
+</BasicSection>
+
+<BasicSection
+  width="var(--main-width)"
+  extraClasses="component-border-vertical overflow-hidden flex-grow"
+/>

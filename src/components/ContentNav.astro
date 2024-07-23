@@ -1,0 +1,51 @@
+---
+const items = [
+    {
+        id: 1,
+        title: "Lorem ipsum dolor sit amet",
+        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec eros ultricies tincidunt.",
+    },
+    {
+        id: 2,
+        title: "Lorem ipsum dolor sit amet",
+        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec eros ultricies tincidunt.",
+    },
+];
+---
+
+<ul class="contentNav">
+    { items?.map((item: any, i: number) => (
+        <li>
+            <a href={`#${item.id}`}>{ item.title }</a>
+        </li>
+    )) }
+</ul>
+
+<style>
+.contentNav {
+    background-color: #eee;
+    border-radius: 7px;
+    color: gray;
+    padding: 20px 30px;
+    font-size: 18px;
+    line-height: 35px;
+}
+
+.contentNav li:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.contentNav li {
+    list-style: none;
+    counter-increment: item;
+    position: relative;
+}
+
+.contentNav li > *::before {
+    content: counter(item) '. ';
+}
+
+.contentNav li > * {
+    display: block;
+}
+</style>
