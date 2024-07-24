@@ -12,154 +12,90 @@ import AsideContainer from "../components/AsideContainer.astro";
 import MainContainer from "../components/MainContainer.astro";
 import SectionWrapper from "../components/SectionWrapper.astro";
 
-const path = '/' + (Astro.params.path || '')
-const response = await fetch(`https://blog-api.necodeo.com/api/initial-url-data?path=${path}`);
+const BASE_URL = import.meta.env.API_BASE_URL;
+
+const path = "/" + (Astro.params.path || "");
+const response = await fetch(`${BASE_URL}/initial-url-data?path=${path}`);
 const data = await response.json();
+const contentType = data.url?.content_type;
 
-const contentType = data?.url?.content_type;
+console.log(data);
 
-if (!data.url) {
-  Astro.response.status = 404;
-}
-
-console.error(data);
-
-// COMMON
-
-let title = '';
-
-const navigation = [
-    {
-        name: 'Artykuły',
-        url: '/',
-    },
-    {
-        name: 'Autorzy',
-        url: '/autorzy',
-    },
-    {
-        name: 'Projekty',
-        url: '/projekty',
-    },
-    {
-        name: 'Kontakt',
-        url: '/kontakt',
-    },
+// TODO: move to api as data.navigation
+export const navigation = [
+  {
+    name: "Artykuły",
+    url: "/",
+  },
+  {
+    name: "Autorzy",
+    url: "/autorzy",
+  },
+  {
+    name: "Projekty",
+    url: "/projekty",
+  },
+  {
+    name: "Kontakt",
+    url: "/kontakt",
+  },
 ];
 
-// AUTHORS
-
-let authors = null;
-
-if (contentType === 'AUTHORS') {
-  title = 'Autorzy';
-
-  authors = [
-    {
-      name: 'necodeus',
-      bio: 'Software Developer',
-      avatar_image_id: 1,
-      path: '/autorzy/necodeus',
-    },
-    {
-      name: 'DL',
-      bio: 'Wordpress Developer',
-      avatar_image_id: 1,
-      path: '/autorzy/dl',
-    },
-  ];
+if (!contentType) {
+  return new Response(null, {
+    status: 404,
+    statusText: "Not Found",
+  });
 }
 
-// AUTHOR
+const getTitle = (data: any) => {
+  // TODO: move to api as data.meta.title
+  switch (data.url?.content_type) {
+    case "AUTHORS":
+      return "Autorzy";
+    case "AUTHOR":
+      return data.author.name;
+    case "POST":
+      return data.post.title;
+    case "POSTS":
+      return "Artykuły";
+    case "PROJECTS":
+      return "Projekty";
+    case "CONTACT":
+      return "Kontakt";
+    default:
+      return "";
+  }
+};
 
-let author = {};
-let posts: object[] = [];
+const ViewsMap = {
+  AUTHORS: Authors,
+  AUTHOR: Author,
+  POST: Post,
+  POSTS: Posts,
+  PROJECTS: Projects,
+  CONTACT: Contact,
+} as Record<string, any>;
 
-if (contentType === 'AUTHOR') {
-  author = {
-    name: 'DL',
-    bio: 'Wordpress Developer',
-    path: '/autorzy/dl',
-    avatar_image_id: '1ad0fa37-17ad-4881-9ced-54d7718b35f5',
-  };
+const View = ViewsMap[contentType];
 
-  posts = [
-    {
-      id: 1,
-      title: 'Lorem ipsum dolor sit amet',
-      tagName: 'Tag',
-      image: 'https://images.necodeo.com/d2f51275-cbf9-4ee6-8da7-b3edf8636c25/785x420',
-      path: '/livka-igor-herbut-list',
-    },
-  ];
-}
-
-// POST
-
-let post = {};
-let postAuthor = {};
-
-if (contentType === 'POST') {
-  title = 'Lorem ipsum dolor sit amet';
-
-  post = {
-    id: '1',
-    title: 'Lorem ipsum dolor sit amet',
-    teaser: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec eros ultricies tincidunt.',
-    content: '# Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-    cover_picture: {
-      '785x420': 'https://images.necodeo.com/d2f51275-cbf9-4ee6-8da7-b3edf8636c25/785x420',
-    },
-    created_at: '2021-10-10',
-    comments_count: 5,
-  };
-
-  postAuthor = {
-    id: '1',
-    path: '/autorzy/necodeus',
-    name: 'necodeus',
-    bio: 'Software Developer',
-    author_picture: {
-      '25x25': 'https://images.necodeo.com/1ad0fa37-17ad-4881-9ced-54d7718b35f5/25x25',
-      '55x55': 'https://images.necodeo.com/1ad0fa37-17ad-4881-9ced-54d7718b35f5/55x55',
-    },
-  };
-}
-
-// POSTS
-
-if (contentType === 'POSTS') {
-  title = 'Artykuły';
-
-  posts = [
-    {
-      id: '1',
-      path: '/livka-igor-herbut-list',
-      title: 'Lorem ipsum dolor sit amet',
-      author_name: 'DL',
-      author_path: '/autorzy/dl',
-      author_picture: {
-        '25x25': 'https://images.necodeo.com/1ad0fa37-17ad-4881-9ced-54d7718b35f5/25x25',
-      },
-      created_at: '2021-10-10',
-    },
-  ];
+if (!View) {
+  return new Response(null, {
+    status: 500,
+    statusText: "Internal Server Error",
+  });
 }
 ---
 
-<Layout title={title} navigation={navigation}>
+<Layout title={getTitle(data)} navigation={navigation}>
   <MainContainer extraClasses="lg:h-[100vh]">
     <SectionWrapper
       width="var(--desktop-main-content-width)"
       extraClasses="flex-grow"
       childrenClasses="flex-grow flex flex-col"
     >
-      {contentType === 'AUTHORS' && <Authors authors={authors || []} />}
-      {contentType === 'AUTHOR' && <Author author={author} posts={posts} />}
-      {contentType === 'POST' && <Post post={post} postAuthor={postAuthor} />}
-      {contentType === 'POSTS' && <Posts posts={posts} />}
-      {contentType === 'PROJECTS' && <Projects />}
-      {contentType === 'CONTACT' && <Contact />}
+      <View {...data} />
+    </SectionWrapper>
+    <AsideContainer extraClasses="component-border-vertical" />
   </MainContainer>
-  <AsideContainer extraClasses="component-border-vertical"></AsideContainer>
 </Layout>
