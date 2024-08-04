@@ -1,0 +1,25 @@
+---
+import SectionTitle from "./SectionTitle.astro"
+
+const posts = Astro.props.posts || [];
+---
+
+<SectionTitle containerClass="p-[30px] component-border-bottom">
+    <b>Inne</b> wpisy
+</SectionTitle>
+
+<div class="component-padding font-jost relative">
+    <ul>
+        {posts?.map((post: any) => {
+            return <li class="list">
+                <a class="text-[20px] indent-[-20px] ml-[20px] inline-block p-[5px_0]" href={post.path}>{ post.title }</a>
+            </li>
+        })}
+    </ul>
+</div>
+
+<style>
+.list:not(:last-child) {
+    margin-bottom: 15px;
+}
+</style>

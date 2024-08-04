@@ -1,7 +1,7 @@
 ---
 import BasicSection from "../components/BasicSection.astro";
 import SectionTitle from "../components/SectionTitle.astro";
-import PostsX from "../components/Posts.astro";
+import PostsList from "../components/PostsList.astro";
 
 const posts = Astro.props.posts;
 ---
@@ -15,7 +15,7 @@ const posts = Astro.props.posts;
     <h1><b>Artykuły</b></h1>
   </SectionTitle>
   <div class="component-padding component-border-bottom">
-    <PostsX posts={posts} />
+    <PostsList posts={posts} />
   </div>
 </BasicSection>
 

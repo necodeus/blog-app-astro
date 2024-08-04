@@ -4,6 +4,7 @@ import SectionWrapper from "../components/SectionWrapper.astro";
 import MainContainer from "../components/MainContainer.astro";
 import AsideContainer from "../components/AsideContainer.astro";
 import BasicSection from "../components/BasicSection.astro";
+import ErrorHeader from "../components/ErrorHeader.astro";
 ---
 
 <Layout title="" navigation={[]}>
@@ -17,22 +18,7 @@ import BasicSection from "../components/BasicSection.astro";
         width="var(--main-width)"
         extraClasses="component-border-vertical overflow-hidden"
       >
-        <div class="relative font-jost component-border-bottom">
-          <div class="p-[7px]">
-            <img
-              src="https://images.necodeo.com/58fa83c2-326c-4909-b454-73118453c697"
-              alt="error background"
-              loading="lazy"
-            />
-          </div>
-        </div>
-        <div class="component-border-bottom relative font-jost">
-          <div class="text-[20px] font-jost relative">
-            <p class="m-[30px] leading-[35px]">
-              <b>404 ~ </b> Strona nie została znaleziona
-            </p>
-          </div>
-        </div>
+        <ErrorHeader code="404" message="Strona nie została znaleziona" />
       </BasicSection>
 
       <BasicSection width="var(--main-width)" extraClasses="component-border-vertical overflow-hidden flex-grow"></BasicSection>
