@@ -1,6 +1,6 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
-import Navigation from '../components/Navigation.astro';
+import TopNavbar from '../components/TopNavbar.astro';
 
 interface Props {
 	title: string;
@@ -24,7 +24,7 @@ const nav = Astro.props.navigation;
 		<ViewTransitions />
 	</head>
 	<body>
-		<Navigation items={nav} />
+		<TopNavbar items={nav} />
 		<slot />
 	</body>
 </html>
