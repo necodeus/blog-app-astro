@@ -3,6 +3,18 @@ import tailwind from "@astrojs/tailwind";
 
 import node from "@astrojs/node";
 
+const isProduction = process.env.NODE_ENV === 'production';
+
+const extra = isProduction
+  ? {
+      vite: {
+        ssr: {
+          noExternal: true,
+        },
+      },
+    }
+  : {};
+
 // https://astro.build/config
 export default defineConfig({
   output: "server",
@@ -13,9 +25,5 @@ export default defineConfig({
   adapter: node({
     mode: "standalone"
   }),
-  vite: {
-    ssr: {
-      noExternal: true,
-    }
-  },
+  ...extra,
 });
