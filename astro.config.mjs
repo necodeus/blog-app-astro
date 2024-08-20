@@ -28,8 +28,7 @@ export default defineConfig({
   experimental: {
     env: {
       schema: {
-        API_BASE_URL: envField.string({ context: "server", access: "public", optional: true }),
-        PORT: envField.number({ context: "server", access: "public", default: 4321 }),
+        API_BASE_URL: envField.string({ context: "server", access: "secret", optional: false }),
       }
     }
   },

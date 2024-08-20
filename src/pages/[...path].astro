@@ -1,4 +1,6 @@
 ---
+import { getSecret } from "astro:env/server";
+
 import Layout from "../layouts/Layout.astro";
 
 import Post from "../views/Post.astro";
@@ -12,9 +14,7 @@ import AsideContainer from "../components/AsideContainer.astro";
 import MainContainer from "../components/MainContainer.astro";
 import SectionWrapper from "../components/SectionWrapper.astro";
 
-const BASE_URL = import.meta.env.API_BASE_URL;
-
-console.log(import.meta.env);
+const BASE_URL = getSecret("API_BASE_URL");
 
 const path = "/" + (Astro.params.path || "");
 const response = await fetch(`${BASE_URL}/initial-url-data?path=${path}`);
