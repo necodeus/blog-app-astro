@@ -14,6 +14,8 @@ import SectionWrapper from "../components/SectionWrapper.astro";
 
 const BASE_URL = import.meta.env.API_BASE_URL;
 
+console.log(import.meta.env);
+
 const path = "/" + (Astro.params.path || "");
 const response = await fetch(`${BASE_URL}/initial-url-data?path=${path}`);
 const data = await response.json();
