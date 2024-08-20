@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig, envField } from 'astro/config';
 import tailwind from "@astrojs/tailwind";
 
 import node from "@astrojs/node";
@@ -25,5 +25,13 @@ export default defineConfig({
   adapter: node({
     mode: "standalone"
   }),
+  experimental: {
+    env: {
+      schema: {
+        API_BASE_URL: envField.string({ context: "server", access: "secret", optional: false }),
+        PORT: envField.number({ context: "server", access: "secret", default: 4321 }),
+      }
+    }
+  },
   ...extra,
 });
