@@ -11,6 +11,6 @@ if (Astro.props.withMargin) {
 classes.push(Astro.props.containerClass);
 ---
 
-<div class={classes.join(' ')}>
+<div class={classes.filter(Boolean).join(' ')}>
     <slot />
 </div>

@@ -1,8 +1,11 @@
 ---
-const classes = ['asideContainer', Astro.props.extraClasses].filter(Boolean).join(' ');
+const classes = [
+    'asideContainer',
+    Astro.props.extraClasses,
+];
 ---
 
-<aside class={classes}>
+<aside class={classes.filter(Boolean).join(' ')}>
     <slot />
 </aside>
 

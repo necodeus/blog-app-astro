@@ -23,26 +23,6 @@ const contentType = data.url?.content_type;
 
 console.log(data);
 
-// TODO: move to api as data.navigation
-export const navigation = [
-  {
-    name: "Artykuły",
-    url: "/",
-  },
-  {
-    name: "Autorzy",
-    url: "/autorzy",
-  },
-  {
-    name: "Projekty",
-    url: "/projekty",
-  },
-  {
-    name: "Kontakt",
-    url: "/kontakt",
-  },
-];
-
 if (!contentType) {
   return new Response(null, {
     status: 404,
@@ -89,15 +69,6 @@ if (!View) {
 }
 ---
 
-<Layout title={getTitle(data)} navigation={navigation}>
-  <MainContainer extraClasses="lg:h-[100vh]">
-    <SectionWrapper
-      width="var(--desktop-main-content-width)"
-      extraClasses="flex-grow"
-      childrenClasses="flex-grow flex flex-col"
-    >
-      <View {...data} />
-    </SectionWrapper>
-    <AsideContainer extraClasses="component-border-vertical" />
-  </MainContainer>
+<Layout title={getTitle(data)}>
+  <View {...data} />
 </Layout>

@@ -4,7 +4,11 @@ import PostContent from "../components/PostContent.astro";
 import ContentNav from "../components/ContentNav.astro";
 import PostHeader from "../components/PostHeader.astro";
 import PostAuthor from "../components/PostAuthor.astro";
-import SectionTitle from "../components/SectionTitle.astro";
+import TopNavbar from "../components/TopNavbar.astro";
+import AsideContainer from "../components/AsideContainer.astro";
+import AsidePopularPosts from "../components/AsidePopularPosts.astro";
+import MainContainer from "../components/MainContainer.astro";
+import SectionWrapper from "../components/SectionWrapper.astro";
 
 const post = Astro.props.post;
 
@@ -22,68 +26,66 @@ const contentItems = [
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec eros ultricies tincidunt.",
   },
 ];
-
-const comments = [
-  {
-    id: '1',
-    author_name: "DL",
-    created_at: "2021-10-10",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec eros ultricies tincidunt.",
-    upvotes: 5,
-    downvotes: 1,
-    action: {
-      value: 1,
-    },
-    replies: [
-      {
-        id: '1',
-        author_name: "DL",
-        created_at: "2021-10-10",
-        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec eros ultricies tincidunt.",
-        upvotes: 5,
-        downvotes: 1,
-        action: {
-          value: 1,
-        },
-      },
-    ],
-  },
-];
 ---
 
-<BasicSection width="var(--main-width)" extraClasses="component-border-vertical component-border-bottom">
-  <div>
-    {post?.id && (
-      <PostHeader
-        coverPicture={post.cover_picture}
-        postAuthor={postAuthor}
-        createdAt={post.created_at}
-        name={post.title}
-        rating={4.5}
-        numberOfComments={post.comments_count}
-        teaser={post.teaser}
-      />
-    )}
-  </div>
-</BasicSection>
-
-<BasicSection width="var(--main-width)" extraClasses="not-desktop">
-  {contentItems.length > 0 && (
-    <div class="m-[7px]">
-      <ContentNav items={contentItems} />
-    </div>
-  )}
-</BasicSection>
-
-<BasicSection width="var(--main-width)" extraClasses="component-border-vertical component-border-bottom overflow-hidden">
-  {post?.id && <PostContent content={post?.content ?? ""} />}
-</BasicSection>
-
-<BasicSection width="var(--main-width)" extraClasses="component-border-vertical component-border-bottom">
-  {post?.id && <PostAuthor profile={postAuthor} />}
-</BasicSection>
-
-<BasicSection
-  width="var(--main-width)"
-  extraClasses="component-border-vertical overflow-hidden flex-grow"
+<TopNavbar 
+  items={[
+    { name: 'Artykuły', url: '/' },
+    { name: 'Autorzy', url: '/autorzy' },
+    { name: 'Projekty', url: '/projekty' },
+    { name: 'Kontakt', url: '/kontakt' },
+  ]}
 />
+
+<MainContainer>
+  <SectionWrapper
+    width="var(--desktop-main-content-width)"
+  >
+    <BasicSection
+      width="var(--main-width)"
+      extraClasses="component-border-vertical component-border-bottom"
+    >
+      <div>
+        {post?.id && (
+          <PostHeader
+            coverPicture={post.cover_picture}
+            postAuthor={postAuthor}
+            createdAt={post.created_at}
+            name={post.title}
+            rating={4.5}
+            numberOfComments={post.comments_count}
+            teaser={post.teaser}
+          />
+        )}
+      </div>
+    </BasicSection>
+
+    <BasicSection width="var(--main-width)">
+      {contentItems.length > 0 && (
+        <div class="m-[7px]">
+          <ContentNav items={contentItems} />
+        </div>
+      )}
+    </BasicSection>
+
+    <BasicSection width="var(--main-width)" extraClasses="component-border-vertical component-border-bottom overflow-hidden">
+      {post?.id && <PostContent content={post?.content ?? ""} />}
+    </BasicSection>
+
+    <BasicSection width="var(--main-width)" extraClasses="component-border-vertical component-border-bottom">
+      {post?.id && <PostAuthor profile={postAuthor} />}
+    </BasicSection>
+
+    <BasicSection
+      width="var(--main-width)"
+      extraClasses="component-border-vertical overflow-hidden flex-grow"
+    />
+  </SectionWrapper>
+</MainContainer>
+
+<AsideContainer class="component-border-vertical">
+  <BasicSection>
+    <AsidePopularPosts :posts="[]" />
+    <!-- <AsideArchive /> -->
+  </BasicSection>
+</AsideContainer>

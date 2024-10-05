@@ -1,14 +1,16 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
-import TopNavbar from '../components/TopNavbar.astro';
+import { getImage } from 'astro:assets';
+
+import faviconSvgSrc from '../../public/favicon.svg'
+
+const faviconSvg = await getImage({ src: faviconSvgSrc, format: 'svg' })
 
 interface Props {
 	title: string;
-    navigation: { name: string; url: string }[];
 }
 
 const title = Astro.props.title;
-const nav = Astro.props.navigation;
 ---
 
 <!doctype html>
@@ -18,13 +20,13 @@ const nav = Astro.props.navigation;
 		<meta charset="utf-8" />
 		<meta name="description" content="some description" />
 		<meta name="viewport" content="width=device-width" />
+        <link rel="icon" href={faviconSvg.src} type="image/svg+xml" />
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" />
 		<ViewTransitions />
 	</head>
 	<body>
-		<TopNavbar items={nav} />
 		<slot />
 	</body>
 </html>
@@ -926,17 +928,7 @@ const nav = Astro.props.navigation;
     --aside-width: 334px;
 }
 
-.not-desktop {
-    display: none;
-}
-
 @media (max-width: calc(800px + 334px + 334px - 1px)) {
-    .desktop {
-        display: none !important;
-    }
-    .not-desktop {
-        display: block;
-    }
     :root {
         --main-width: 100%;
         --desktop-main-width: calc(100vw - 334px);
