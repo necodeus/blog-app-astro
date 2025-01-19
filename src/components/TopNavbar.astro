@@ -1,18 +1,43 @@
 ---
+import FrameworkLogo from "./FrameworkLogo.astro";
 import Logo from "./Logo.astro";
 
-const currentPath = '/' + (Astro.params.path || '');
+const isError = !("path" in Astro.params);
+const currentPath = !isError ? "/" + (Astro.params.path || "") : null;
 const items = Astro.props.items;
 ---
 
-<div class="component-border-bottom flex font-jost text-[16px] h-[50px]">
-    <div style={{
-        display: 'flex',
-        gap: '30px',
-        alignItems: 'center',
-        margin: '0 30px',
-    }}>
-        <Logo class="mr-[20px]" height={25} />
-        {items.map((item: any) => <a href={item.url} class={currentPath === item.url ? "font-medium" : ""}>{item.name}</a>)}
+<div class="component-border-bottom font-jost text-[16px] h-[50px] flex">
+  <div
+    style={{
+      display: "flex",
+      gap: "30px",
+      alignItems: "center",
+      margin: "0 30px",
+    }}
+  >
+    <div class="flex items-center gap-[15px]">
+      <Logo height={25} />
+      <div class="divSeparator"></div>
+      <FrameworkLogo width={75} />
     </div>
+    {
+      items.map((item: any) => (
+        <a
+          href={item.url}
+          class={currentPath === item.url ? "font-medium" : ""}
+        >
+          {item.name}
+        </a>
+      ))
+    }
+  </div>
 </div>
+
+<style>
+  .divSeparator {
+    width: 1px;
+    height: 15px;
+    background-color: #e5e5e5;
+  }
+</style>

@@ -1,16 +1,16 @@
 ---
-const classes = [
-    'font-jost',
-    'text-[22px]'
-];
+const setFirstWordBold = (text: string) => {
+    if (!text) return '';
 
-if (Astro.props.withMargin) {
-    classes.push('mx-[30px]', 'mb-[30px]');
+    const words = text.split(' ');
+    words[0] = `<span class="font-bold">${words[0]}</span>`;
+
+    return words.join(' ');
 }
 
-classes.push(Astro.props.containerClass);
+const className = Astro.props.class;
+const classes = "font-jost text-[22px] component-border-bottom" + (className ? ` ${className}` : "");
+const text = Astro.props.text;
 ---
 
-<div class={classes.filter(Boolean).join(' ')}>
-    <slot />
-</div>
+<div class={classes} set:html={setFirstWordBold(text)}></div>

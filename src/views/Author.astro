@@ -1,105 +1,55 @@
 ---
+import AsideLinks from "../components/AsideLinks.astro";
 import AsideSpotify from "../components/AsideSpotify.astro";
-import BasicSection from "../components/BasicSection.astro";
+import AuthorDetails from "../components/AuthorDetails.astro";
+import AuthorPosts from "../components/AuthorPosts.astro";
+import ContentLayout from "../components/ContentLayout.astro";
 import SectionTitle from "../components/SectionTitle.astro";
+import TopNavbar from "../components/TopNavbar.astro";
 
 const author = Astro.props.author;
 const posts = Astro.props.posts;
+const songs = Astro.props.songs;
+
+const navigation = [
+  { name: "Artykuły", url: "/" },
+  { name: "Autorzy", url: "/autorzy" },
+];
+
+const links = [
+  {
+    href: "https://blog.necodeo.com",
+    text: "Wizytówka",
+    description: "dawid.smulewicz.pro",
+  },
+];
 ---
 
-<BasicSection width="var(--main-width)" extraClasses="component-border-vertical component-border-bottom overflow-hidden">
-  <SectionTitle containerClass="p-[30px] component-border-bottom">
-    <h1><b>Wpisy </b>autora</h1>
-  </SectionTitle>
+<ContentLayout>
+  <!-- Navigation -->
+  <TopNavbar slot="header" items={navigation} />
 
-  <div class="font-jost">
-    <div class="component-padding relative bg-white">
-      <div class="font-jost flex items-center text-[20px] rounded-[7px]">
-        <picture>
-          <img
-            class="mobile-photo min-w-[55px] max-w-[55px] min-h-[55px] max-h-[55px] bg-cover bg-center !rounded-[50%] bg-[#eee]"
-            src={`https://images.necodeo.com/${author.avatar_image_id}/55x55`}
-            alt=""
-            loading="lazy"
-          />
-        </picture>
-        <div class="ml-[20px]">
-          <div class="flex items-center">
-            <div class="font-medium">{author.name}</div>
-          </div>
-          <div class="mt-[2px] text-[16px]">{author.bio}</div>
-        </div>
-      </div>
+  <!-- Main -->
+  <SectionTitle text="Autor necodeus" class="p-[30px]" />
+  <AuthorDetails
+    className="p-[30px] component-border-bottom"
+    name={author.name}
+    bio={author.bio}
+    numberOfPosts={posts.length}
+    avatar_image_id={author.avatar_image_id}
+  />
+
+  <SectionTitle text="Artykuły" class="p-[30px]" />
+  <AuthorPosts posts={posts} />
+
+  <!-- Right sidebar -->
+  <div slot="rightSidebar">
+    <SectionTitle text="Linki zewnętrzne" class="p-[30px]" />
+    <AsideLinks links={links} />
+
+    <SectionTitle text="Spotify na żywo" class="p-[30px]" />
+    <div class="p-[30px] component-border-bottom">
+      <AsideSpotify songs={songs} />
     </div>
   </div>
-</BasicSection>
-
-<BasicSection width="var(--main-width)" extraClasses="component-border-vertical pt-[30px] font-jost pb-[30px] flex-grow">
-  {posts?.length > 0 && <div class={['grid px-[30px] pb-[30px] gap-[25px] component-border-bottom', 'responsiveGrid'].join(' ')}>
-    {posts.map((post: any) => (
-      <a href={post.path || ''}>
-        <div class="relative mb-[18px]">
-          <div class="absolute left-[-10px] bg-[#fff] top-[15px] border-[1px] border-solid border-[#cfcfcf] text-[11px] p-[5px_12px] uppercase font-[600] tracking-[2px]">{post.tagName}</div>
-          <img class="rounded-[7px]" src={post.image} />
-        </div>
-        <div class="text-[20px] font-[500] mb-[2px]">{post.title}</div>
-      </a>
-    ))}
-  </div>}
-  {posts?.length === 0 && <div class="px-[30px] pb-[30px] component-border-bottom">Brak wpisów</div>}
-</BasicSection>
-
-<AsideSpotify songs={[
-  {
-    type: 'current',
-    name: 'Dance Monkey',
-    artists: 'Tones and I',
-    images: [
-      { url: 'https://i.scdn.co/image/ab67616d00001e02' }
-    ],
-  },
-]} />
-
-<style>
-  .background {
-    background-color: #eee;
-    background-size: cover;
-    background-position: center;
-    opacity: 0.6;
-    top: 7px;
-    bottom: 7px;
-    left: 7px;
-    right: 7px;
-    position: absolute;
-    width: calc(100% - 7px * 2);
-    height: calc(100% - 7px);
-    display: block;
-    object-fit: cover;
-}
-
-.divSeparator {
-    background-color: black;
-    border-radius: 999px;
-    width: 3px;
-    height: 3px;
-    min-width: 3px;
-    min-height: 3px;
-    max-width: 3px;
-    max-height: 3px;
-    margin: 0 10px;
-    display: flex;
-    opacity: 0.5;
-}
-
-.responsiveGrid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-
-    @media (max-width: calc(800px + 334px + 334px - 1px)) {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-
-    @media (max-width: calc(800px - 1px)) {
-        grid-template-columns: repeat(1, minmax(0, 1fr));
-    }
-}
-</style>
+</ContentLayout>

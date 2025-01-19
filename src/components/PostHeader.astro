@@ -39,7 +39,7 @@ const commentsText = numberToPolishNumeral(numberOfComments, {
 });
 ---
 
-<div class="font-jost">
+<div class="font-jost  border-b-[1px] border-[#e5e5e5]">
     <div class="relative">
         <picture>
             {coverPicture?.['785x420'] && <source media="(min-width: 1468px)" srcset={coverPicture?.['785x420']} />}
@@ -47,7 +47,7 @@ const commentsText = numberToPolishNumeral(numberOfComments, {
             {coverPicture?.['785x420'] && <source media="(min-width: 0px)" srcset={coverPicture?.['785x420']} />}
             <img class="background" src={coverPicture?.['1200x4320']} loading="lazy" alt="" />
         </picture>
-        <div class="!pt-[330px] relative bg-[linear-gradient(transparent_50%,white_100%)]">
+        <div class="px-[30px] !pt-[330px] relative bg-[linear-gradient(transparent_50%,white_100%)]">
             <PublicationDetails
                 publisher={{
                     name: postAuthor.name,
@@ -57,14 +57,14 @@ const commentsText = numberToPolishNumeral(numberOfComments, {
                 createdAt={createdAt}
             />
 
-            <div class="component-padding relative !py-0">
+            <div class="relative !py-0">
                 <h1 class="flex">
                     <span class="text-[38px]">{name}</span>
                 </h1>
             </div>
         </div>
     </div>
-    <div class="component-padding relative !pt-[10px] bg-white">
+    <div class="p-[30px] relative !pt-[10px] bg-white">
         <div class="flex items-center">
             <Stars
                 width={160}

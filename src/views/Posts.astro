@@ -1,51 +1,24 @@
 ---
-import BasicSection from "../components/BasicSection.astro";
 import SectionTitle from "../components/SectionTitle.astro";
 import TopNavbar from "../components/TopNavbar.astro";
-import MainContainer from "../components/MainContainer.astro";
-import AsideContainer from "../components/AsideContainer.astro";
-import SectionWrapper from "../components/SectionWrapper.astro";
 import PostsListing from "../components/PostsListing.astro";
-import Scrollbar from "../components/Scrollbar.astro";
+import ContentLayout from "../components/ContentLayout.astro";
 
 const posts = Astro.props.posts;
+
+const navigation = [
+  { name: "Artykuły", url: "/" },
+  { name: "Autorzy", url: "/autorzy" },
+];
 ---
 
-<TopNavbar
-  items={[
-    { name: "Artykuły", url: "/" },
-    { name: "Autorzy", url: "/autorzy" },
-    { name: "Projekty", url: "/projekty" },
-    { name: "Kontakt", url: "/kontakt" },
-  ]}
-/>
+<ContentLayout>
+  <!-- Navigation -->
+  <TopNavbar slot="header" items={navigation} />
 
-<MainContainer extraClasses="lg:h-[100vh]">
-  <Scrollbar>
-    <SectionWrapper
-      width="var(--desktop-main-content-width)"
-      extraClasses="flex-grow"
-      childrenClasses="flex-grow flex flex-col"
-    >
-      <BasicSection
-        width="var(--main-width)"
-        extraClasses="component-border-vertical overflow-hidden"
-        childrenClasses="flex-grow flex flex-col"
-      >
-        <SectionTitle containerClass="p-[30px] component-border-bottom">
-          <h1><b>Artykuły</b></h1>
-        </SectionTitle>
-        <div class="component-padding component-border-bottom">
-          <PostsListing posts={posts} />
-        </div>
-      </BasicSection>
-      <BasicSection width="var(--main-width)" extraClasses="component-border-vertical overflow-hidden flex-grow"></BasicSection>
-    </SectionWrapper>
-  </Scrollbar>
-</MainContainer>
-
-<AsideContainer extraClasses="component-border-vertical">
-  <Scrollbar>
-    <BasicSection></BasicSection>
-  </Scrollbar>
-</AsideContainer>
+  <!-- Main -->
+  <SectionTitle text="Artykuły" class="p-[30px]" />
+  <div class="component-padding">
+    <PostsListing posts={posts} />
+  </div>
+</ContentLayout>

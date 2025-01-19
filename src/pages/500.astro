@@ -2,12 +2,11 @@
 import Layout from "../layouts/Layout.astro";
 import SectionWrapper from "../components/SectionWrapper.astro";
 import MainContainer from "../components/MainContainer.astro";
-import AsideContainer from "../components/AsideContainer.astro";
 import BasicSection from "../components/BasicSection.astro";
 import ErrorHeader from "../components/ErrorHeader.astro";
 ---
 
-<Layout title="" navigation={[]}>
+<Layout title="">
   <MainContainer extraClasses="lg:h-[100vh]">
     <SectionWrapper
       width="var(--desktop-main-content-width)"
@@ -23,6 +22,5 @@ import ErrorHeader from "../components/ErrorHeader.astro";
 
       <BasicSection width="var(--main-width)" extraClasses="component-border-vertical overflow-hidden flex-grow"></BasicSection>
     </SectionWrapper>
-    <AsideContainer extraClasses="component-border-vertical" />
   </MainContainer>
 </Layout>

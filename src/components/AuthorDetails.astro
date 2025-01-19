@@ -1,0 +1,48 @@
+---
+import { numberToPolishNumeral } from "../utils/stringNumerals";
+
+const {
+  name,
+  bio,
+  avatar_image_id,
+  path,
+  numberOfPosts = 0,
+  className,
+} = Astro.props;
+
+const LinkOrDiv = path ? "a" : "div";
+---
+
+<div class={className}>
+  <LinkOrDiv href={path || ""} class="inline-flex items-center gap-[20px]">
+    <picture>
+      <img
+        class="min-w-[55px] max-w-[55px] min-h-[55px] max-h-[55px] rounded-full bg-[#eee]"
+        src={`https://images.necodeo.com/${avatar_image_id}/55x55`}
+        alt=""
+        loading="lazy"
+      />
+    </picture>
+    <div class="font-jost">
+      <div class="flex items-baseline">
+        <div class="text-[20px] font-medium">{name}</div>
+        {
+          numberOfPosts > 0 && (
+            <>
+              <div>&nbsp;/&nbsp;</div>
+              <div class="text-[16px]">
+                {numberOfPosts}{" "}
+                {numberToPolishNumeral(numberOfPosts, {
+                  one: "artykuł",
+                  many: "artykułów",
+                  exceptions: "artykuły",
+                })}
+              </div>
+            </>
+          )
+        }
+      </div>
+      <div class="font-jost text-[16px]">{bio}</div>
+    </div>
+  </LinkOrDiv>
+</div>

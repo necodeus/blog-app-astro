@@ -1,36 +1,31 @@
 ---
-import BasicSection from "../components/BasicSection.astro";
 import SectionTitle from "../components/SectionTitle.astro";
+import TopNavbar from "../components/TopNavbar.astro";
+import AuthorDetails from "../components/AuthorDetails.astro";
+import ContentLayout from "../components/ContentLayout.astro";
 
 const authors = Astro.props.authors;
+const navigation = [
+  { name: "Artykuły", url: "/" },
+  { name: "Autorzy", url: "/autorzy" },
+];
 ---
 
-<BasicSection width="var(--main-width)" extraClasses="component-border-vertical component-border-bottom overflow-hidden">
-  <SectionTitle containerClass="p-[30px] component-border-bottom">
-    <h1><b>Autorzy</b></h1>
-  </SectionTitle> 
-  <div class="flex flex-col gap-[30px] p-[30px]">
+<ContentLayout>
+  <!-- Navigation -->
+  <TopNavbar slot="header" items={navigation} />
+
+  <!-- Main -->
+  <SectionTitle text="Autorzy" class="p-[30px]" />
+  <div class="flex flex-col gap-[30px] p-[30px] component-border-bottom">
     {authors.map((author: any) => (
-      <div class="flex items-center font-jost text-[20px] rounded-[7px]">
-        <a class="flex" href={author.path || ''}>
-          <picture>
-              <img
-                class="mobile-photo min-w-[55px] max-w-[55px] min-h-[55px] max-h-[55px] bg-cover bg-center !rounded-[50%] bg-[#eee]"
-                src={`https://images.necodeo.com/${author.avatar_image_id}/55x55`}
-                alt=""
-                loading="lazy"
-              />
-          </picture>
-          <div class="ml-[20px]">
-              <div class="flex items-center">
-                <div class="font-medium">{author.name}</div>
-              </div>
-              <div class="mt-[2px] text-[16px]">{author.bio}</div>
-          </div>
-        </a>
-      </div>
+      <AuthorDetails
+        name={author.name}
+        bio={author.bio}
+        avatar_image_id={author.avatar_image_id}
+        path={author.path}
+        numberOfPosts={author.numberOfPosts}
+      />
     ))}
   </div>
-</BasicSection>
-
-<BasicSection width="var(--main-width)" extraClasses="component-border-vertical overflow-hidden flex-grow"></BasicSection>
+</ContentLayout>

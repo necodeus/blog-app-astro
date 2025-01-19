@@ -1,25 +1,23 @@
 ---
-import SectionTitle from "./SectionTitle.astro";
+type Links = {
+    href: string;
+    text: string;
+    description: string;
+}[];
 
-const links = Astro.props.links || [];
+const links: Links = Astro.props.links || [];
 ---
 
-<SectionTitle>
-    <b>Linki</b> zewnętrzne
-</SectionTitle>
-
-<div class="external-links component-padding font-jost">
-    <ul class="flex flex-col gap-[30px]">
-        {links.map((link: any) => <li>
-            <a
-                class="text-[20px] inline-block"
-                target="_blank"
-                rel="noopener noreferrer nofollow"
-                href={link.href}
-            >
-                <b class="font-medium">{link.text}</b><br />
-                <div class="mt-[10px]">{link.description}</div>
-            </a>
-        </li>)}
-    </ul>
-</div>
+<ul class="font-jost flex flex-col gap-[30px] p-[30px] component-border-bottom">
+    {links.map((link) => <li>
+        <a
+            class="text-[20px] inline-block"
+            target="_blank"
+            rel="noopener noreferrer nofollow"
+            href={link.href}
+        >
+            <b class="font-medium">{link.text}</b><br />
+            <div class="mt-[10px]">{link.description}</div>
+        </a>
+    </li>)}
+</ul>

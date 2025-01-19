@@ -7,12 +7,6 @@ import Post from "../views/Post.astro";
 import Posts from "../views/Posts.astro";
 import Author from "../views/Author.astro";
 import Authors from "../views/Authors.astro";
-import Projects from "../views/Projects.astro";
-import Contact from "../views/Contact.astro";
-
-import AsideContainer from "../components/AsideContainer.astro";
-import MainContainer from "../components/MainContainer.astro";
-import SectionWrapper from "../components/SectionWrapper.astro";
 
 const BASE_URL = getSecret("API_BASE_URL");
 
@@ -41,10 +35,6 @@ const getTitle = (data: any) => {
       return data.post.title;
     case "POSTS":
       return "Artykuły";
-    case "PROJECTS":
-      return "Projekty";
-    case "CONTACT":
-      return "Kontakt";
     default:
       return "";
   }
@@ -55,8 +45,6 @@ const ViewsMap = {
   AUTHOR: Author,
   POST: Post,
   POSTS: Posts,
-  PROJECTS: Projects,
-  CONTACT: Contact,
 } as Record<string, any>;
 
 const View = ViewsMap[contentType];

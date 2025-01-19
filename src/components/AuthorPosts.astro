@@ -1,0 +1,35 @@
+---
+type Posts = {
+  id: string;
+  path: string;
+  title: string;
+  teaser: string;
+  tagName: string;
+  image: string;
+}[];
+
+const posts: Posts = Astro.props.posts || [];
+---
+
+{
+  posts.length > 0 ? (
+    <ul class="font-jost inline-flex flex-col gap-[30px] p-[30px] component-border-bottom w-full">
+      {posts.map((post) => {
+        return (
+          <li class="flex flex-col">
+            <h1>
+              <a href={post.path || ""} class="text-[38px]">
+                {post.title}
+              </a>
+            </h1>
+            <p class="line-clamp-3 text-[20px] leading-[35px] mt-[20px]">
+              {post.teaser}
+            </p>
+          </li>
+        );
+      })}
+    </ul>
+  ) : (
+    <div class="p-[30px] component-border-bottom">Brak wpisów</div>
+  )
+}

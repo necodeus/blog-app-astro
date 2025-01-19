@@ -1,16 +1,17 @@
-<main class={['mainContainer', Astro.props.class].join(' ')}>
+<div class={['containerc', Astro.props.class].join(' ')}>
     <slot />
-</main>
+</div>
 
 <style>
-.mainContainer {
-    left: 0;
-    position: var(--desktop-main-position);
-    width: var(--desktop-main-width);
-    height: var(--desktop-main-height);
-    overflow-y: auto;
-    overflow-x: hidden;
+.containerc {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    height: calc(100vh - 50px);
+}
+
+@media (max-width: calc(1100px - 1px)) {
+    .containerc {
+        justify-content: flex-start;
+    }
 }
 </style>

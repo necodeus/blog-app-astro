@@ -18,9 +18,8 @@ interface Props {
 
 const posts = Astro.props.posts || [];
 ---
-
-<ul class="font-jost inline-flex flex-col gap-[30px]">
-    {posts.length > 0 && posts.map((post) => {
+<ul class="font-jost inline-flex flex-col gap-[30px] p-[30px] component-border-bottom w-full">
+    {posts?.map((post) => {
         return <li>
             <div class="flex items-center">
                 <a href={post.author_path || '#'} class="flex items-center">
@@ -44,21 +43,20 @@ const posts = Astro.props.posts || [];
             </h1>
         </li>
     })}
-    {posts.length === 0 && <div>Brak artykułów</div>}
 </ul>
 
 <style>
-.divSeparator {
-    background-color: black;
-    border-radius: 999px;
-    width: 3px;
-    height: 3px;
-    min-width: 3px;
-    min-height: 3px;
-    max-width: 3px;
-    max-height: 3px;
-    margin: 0 10px;
-    display: flex;
-    opacity: 0.5;
-}
+    .divSeparator {
+        background-color: black;
+        border-radius: 999px;
+        width: 3px;
+        height: 3px;
+        min-width: 3px;
+        min-height: 3px;
+        max-width: 3px;
+        max-height: 3px;
+        margin: 0 10px;
+        display: flex;
+        opacity: 0.5;
+    }
 </style>

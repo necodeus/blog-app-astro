@@ -1,91 +1,59 @@
 ---
-import BasicSection from "../components/BasicSection.astro";
 import PostContent from "../components/PostContent.astro";
 import ContentNav from "../components/ContentNav.astro";
 import PostHeader from "../components/PostHeader.astro";
 import PostAuthor from "../components/PostAuthor.astro";
 import TopNavbar from "../components/TopNavbar.astro";
-import AsideContainer from "../components/AsideContainer.astro";
-import AsidePopularPosts from "../components/AsidePopularPosts.astro";
-import MainContainer from "../components/MainContainer.astro";
-import SectionWrapper from "../components/SectionWrapper.astro";
+import ContentLayout from "../components/ContentLayout.astro";
+
+import { slugify } from "../plugins/markdown-it/anchor";
 
 const post = Astro.props.post;
 
 const postAuthor = Astro.props.postAuthor;
 
-const contentItems = [
-  {
-    id: '1',
-    title: "Lorem ipsum dolor sit amet",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec eros ultricies tincidunt.",
-  },
-  {
-    id: '2',
-    title: "Lorem ipsum dolor sit amet",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec eros ultricies tincidunt.",
-  },
+const navigation = [
+  { name: "Artykuły", url: "/" },
+  { name: "Autorzy", url: "/autorzy" },
 ];
+
+function extractMarkdownHeadersWithIds(markdownText: any) {
+  const headers = markdownText.match(/^#{1,6} .+$/gm) ?? [];
+
+  return headers.map((header: string) => {
+    const title = header.replace(/^#{1,6} /, "");
+
+    return {
+      id: slugify(title),
+      title: title,
+    };
+  });
+}
+
+const contentItems = extractMarkdownHeadersWithIds(post?.content ?? "");
 ---
 
-<TopNavbar 
-  items={[
-    { name: 'Artykuły', url: '/' },
-    { name: 'Autorzy', url: '/autorzy' },
-    { name: 'Projekty', url: '/projekty' },
-    { name: 'Kontakt', url: '/kontakt' },
-  ]}
-/>
+<ContentLayout>
+  <!-- Navigation -->
+  <TopNavbar slot="header" items={navigation} />
 
-<MainContainer>
-  <SectionWrapper
-    width="var(--desktop-main-content-width)"
-  >
-    <BasicSection
-      width="var(--main-width)"
-      extraClasses="component-border-vertical component-border-bottom"
-    >
-      <div>
-        {post?.id && (
-          <PostHeader
-            coverPicture={post.cover_picture}
-            postAuthor={postAuthor}
-            createdAt={post.created_at}
-            name={post.title}
-            rating={4.5}
-            numberOfComments={post.comments_count}
-            teaser={post.teaser}
-          />
-        )}
-      </div>
-    </BasicSection>
-
-    <BasicSection width="var(--main-width)">
-      {contentItems.length > 0 && (
-        <div class="m-[7px]">
-          <ContentNav items={contentItems} />
-        </div>
-      )}
-    </BasicSection>
-
-    <BasicSection width="var(--main-width)" extraClasses="component-border-vertical component-border-bottom overflow-hidden">
-      {post?.id && <PostContent content={post?.content ?? ""} />}
-    </BasicSection>
-
-    <BasicSection width="var(--main-width)" extraClasses="component-border-vertical component-border-bottom">
-      {post?.id && <PostAuthor profile={postAuthor} />}
-    </BasicSection>
-
-    <BasicSection
-      width="var(--main-width)"
-      extraClasses="component-border-vertical overflow-hidden flex-grow"
-    />
-  </SectionWrapper>
-</MainContainer>
-
-<AsideContainer class="component-border-vertical">
-  <BasicSection>
-    <AsidePopularPosts :posts="[]" />
-    <!-- <AsideArchive /> -->
-  </BasicSection>
-</AsideContainer>
+  <div>
+    {post?.id && (
+      <PostHeader
+        coverPicture={post.cover_picture}
+        postAuthor={postAuthor}
+        createdAt={post.created_at}
+        name={post.title}
+        rating={4.5}
+        numberOfComments={post.comments_count}
+        teaser={post.teaser}
+      />
+    )}
+  </div>
+  {contentItems.length > 0 && (
+    <ContentNav items={contentItems} />
+  )}
+  <div class="border-b-[1px] border-[#e5e5e5]">
+    {post?.id && <PostContent content={post?.content ?? ""} />}
+  </div>
+</ContentLayout>
