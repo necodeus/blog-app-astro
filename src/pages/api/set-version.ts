@@ -1,4 +1,4 @@
-const versions = ["next", "nuxt"];
+const versions = ["nuxt", "next"];
 
 const getNewVersion = (currentVersion: string) => {
   const currentIndex = versions.indexOf(currentVersion);

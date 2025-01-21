@@ -36,9 +36,11 @@ const width = Astro.props.width;
 <script>
   const icon = document.getElementById("frameworkLogo");
 
-  icon?.addEventListener("click", () => {
-    fetch("/api/set-version");
-    location.reload();
+  icon?.addEventListener("click", async () => {
+    await fetch("/api/set-version");
+    setTimeout(() => {
+      location.reload();
+    }, 100);
   });
 </script>
 

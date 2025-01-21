@@ -1,5 +1,5 @@
 ---
-import FrameworkLogo from "./FrameworkLogo.astro";
+import FrameworkLogo from "./FrameworkLogo.jsx";
 import Logo from "./Logo.astro";
 
 const isError = !("path" in Astro.params);
@@ -19,7 +19,7 @@ const items = Astro.props.items;
     <div class="flex items-center gap-[15px]">
       <Logo height={25} />
       <div class="divSeparator"></div>
-      <FrameworkLogo width={75} />
+      <FrameworkLogo client:load width={75} />
     </div>
     {
       items.map((item: any) => (

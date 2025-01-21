@@ -1,0 +1,13 @@
+.icon {
+  opacity: 0.5;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.icon:hover {
+  opacity: 1;
+}
+
+.flame {
+  fill: url(#gradient);
+}
