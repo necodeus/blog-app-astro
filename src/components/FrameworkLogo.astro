@@ -7,6 +7,7 @@ const width = Astro.props.width;
   width={width}
   viewBox="0 -6 381 100"
   class="icon"
+  id="frameworkLogo"
 >
   <path
     class="flame"
@@ -32,9 +33,23 @@ const width = Astro.props.width;
   </defs>
 </svg>
 
+<script>
+  const icon = document.getElementById("frameworkLogo");
+
+  icon?.addEventListener("click", () => {
+    fetch("/api/set-version");
+    location.reload();
+  });
+</script>
+
 <style>
   .icon {
     opacity: 0.5;
+    cursor: pointer;
+    transition: opacity 0.3s;
+  }
+  .icon:hover {
+    opacity: 1;
   }
   .flame {
     fill: url(#gradient);

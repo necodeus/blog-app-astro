@@ -1,6 +1,4 @@
 ---
-import { numberToPolishNumeral } from '../utils/stringNumerals';
-
 import Stars from '../components/Stars.astro';
 import PublicationDetails from '../components/PublicationDetails.astro';
 
@@ -32,11 +30,11 @@ const name = Astro.props.name;
 const rating = Astro.props.rating;
 const teaser = Astro.props.teaser;
 
-const commentsText = numberToPolishNumeral(numberOfComments, {
-    one: 'komentarz',
-    many: 'komentarzy',
-    exceptions: 'komentarze',
-});
+const publisher = {
+  name: postAuthor.name,
+  path: postAuthor.path,
+  picture: postAuthor.author_picture,
+};
 ---
 
 <div class="font-jost  border-b-[1px] border-[#e5e5e5]">
@@ -49,11 +47,7 @@ const commentsText = numberToPolishNumeral(numberOfComments, {
         </picture>
         <div class="px-[30px] !pt-[330px] relative bg-[linear-gradient(transparent_50%,white_100%)]">
             <PublicationDetails
-                publisher={{
-                    name: postAuthor.name,
-                    path: postAuthor.path,
-                    picture: postAuthor.author_picture,
-                }}
+                publisher={publisher}
                 createdAt={createdAt}
             />
 
@@ -75,7 +69,7 @@ const commentsText = numberToPolishNumeral(numberOfComments, {
 
             <div class="divSeparator"></div>
 
-            <div>{numberOfComments || 0} {commentsText}</div>
+            <div>{rating}</div>
         </div>
         {teaser?.length > 0 && <div class="mt-[10px] text-[20px] leading-[35px]">{teaser}</div>}
     </div>

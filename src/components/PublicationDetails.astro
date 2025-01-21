@@ -1,5 +1,6 @@
 ---
-import moment from "moment";
+import moment from "moment/min/moment-with-locales";
+moment.locale("pl");
 
 const publisher = Astro.props.publisher;
 const createdAt = Astro.props.createdAt;
