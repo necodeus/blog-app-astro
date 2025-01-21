@@ -1,16 +1,5 @@
 ---
-const items = [
-    {
-        id: 1,
-        title: "Lorem ipsum dolor sit amet",
-        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec eros ultricies tincidunt.",
-    },
-    {
-        id: 2,
-        title: "Lorem ipsum dolor sit amet",
-        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec eros ultricies tincidunt.",
-    },
-];
+const items = Astro.props.items;
 ---
 
 <ul class="contentNav">
@@ -23,12 +12,11 @@ const items = [
 
 <style>
 .contentNav {
-    background-color: #eee;
-    border-radius: 7px;
     color: gray;
     padding: 20px 30px;
     font-size: 18px;
     line-height: 35px;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .contentNav li:not(:last-child) {
