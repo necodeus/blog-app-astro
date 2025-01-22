@@ -19,7 +19,7 @@ const songs = Astro.props.songs;
   <TopNavbar slot="header" items={navigation} />
 
   <!-- Main -->
-  <SectionTitle text="Autor necodeus" class="p-[30px]" />
+  <SectionTitle text={`Autor ${author.name}`} class="p-[30px]" />
   <AuthorDetails
     className="p-[30px] component-border-bottom"
     name={author.name}
