@@ -4,11 +4,8 @@ import TopNavbar from "../components/TopNavbar.astro";
 import AuthorDetails from "../components/AuthorDetails.astro";
 import ContentLayout from "../components/ContentLayout.astro";
 
+const navigation = Astro.props.navigation;
 const authors = Astro.props.authors;
-const navigation = [
-  { name: "Artykuły", url: "/" },
-  { name: "Autorzy", url: "/autorzy" },
-];
 ---
 
 <ContentLayout>

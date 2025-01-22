@@ -7,22 +7,11 @@ import ContentLayout from "../components/ContentLayout.astro";
 import SectionTitle from "../components/SectionTitle.astro";
 import TopNavbar from "../components/TopNavbar.astro";
 
+const navigation = Astro.props.navigation;
 const author = Astro.props.author;
 const posts = Astro.props.posts;
+const links = Astro.props.links;
 const songs = Astro.props.songs;
-
-const navigation = [
-  { name: "Artykuły", url: "/" },
-  { name: "Autorzy", url: "/autorzy" },
-];
-
-const links = [
-  {
-    href: "https://blog.necodeo.com",
-    text: "Wizytówka",
-    description: "dawid.smulewicz.pro",
-  },
-];
 ---
 
 <ContentLayout>

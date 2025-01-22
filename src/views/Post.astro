@@ -8,14 +8,9 @@ import ContentLayout from "../components/ContentLayout.astro";
 
 import { slugify } from "../plugins/markdown-it/anchor";
 
+const navigation = Astro.props.navigation;
 const post = Astro.props.post;
-
 const postAuthor = Astro.props.postAuthor;
-
-const navigation = [
-  { name: "Artykuły", url: "/" },
-  { name: "Autorzy", url: "/autorzy" },
-];
 
 function extractMarkdownHeadersWithIds(markdownText: any) {
   const headers = markdownText.match(/^#{1,6} .+$/gm) ?? [];

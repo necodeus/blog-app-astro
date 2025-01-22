@@ -5,11 +5,7 @@ import PostsListing from "../components/PostsListing.astro";
 import ContentLayout from "../components/ContentLayout.astro";
 
 const posts = Astro.props.posts;
-
-const navigation = [
-  { name: "Artykuły", url: "/" },
-  { name: "Autorzy", url: "/autorzy" },
-];
+const navigation = Astro.props.navigation;
 ---
 
 <ContentLayout>
