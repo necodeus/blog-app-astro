@@ -33,8 +33,14 @@ const songs = Astro.props.songs;
 
   <!-- Right sidebar -->
   <div slot="rightSidebar">
-    <SectionTitle text="Linki zewnętrzne" class="p-[30px]" />
-    <AsideLinks links={links} />
+    {
+      links.length > 0 && (
+        <>
+          <SectionTitle text="Linki zewnętrzne" class="p-[30px]" />
+          <AsideLinks links={links} />
+        </>
+      )
+    }
 
     <SectionTitle text="Spotify na żywo" class="p-[30px]" />
     <div class="p-[30px] component-border-bottom">
