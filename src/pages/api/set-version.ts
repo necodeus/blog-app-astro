@@ -1,13 +1,6 @@
-const versions = ["nuxt", "next"];
-
-const getNewVersion = (currentVersion: string) => {
-  const currentIndex = versions.indexOf(currentVersion);
-  const nextIndex = (currentIndex + 1) % versions.length;
-  return versions[nextIndex];
-};
-
 export async function GET({ cookies }: any) {
-  const newVersion = getNewVersion(cookies.get("version").value);
+  const newVersion = 'next';
+
   cookies.set("version", newVersion, { path: "/" });
 
   return new Response(
